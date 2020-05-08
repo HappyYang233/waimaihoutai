@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springbootmybatis.mapper.OrderMapper">
+    <resultMap id="test" type="com.example.springbootmybatis.entity.Order">
+        <id column="id" property="id" />
+        <result column="addTime" property="addTime" jdbcType="DATE"/>
+    </resultMap>
+    <insert id="pay"
+            useGeneratedKeys="true"
+            keyProperty="id"
+            keyColumn="id"
+            parameterType="com.example.springbootmybatis.entity.Order"
+    >
+        insert  into `order` (openId,resId,totalMoney,payMoney,address,getName,getMobile,num,status,addTime)
+        values (
+                #{openId},
+                #{resId},
+                #{totalMoney},
+                #{payMoney},
+                #{address},
+                #{getName},
+                #{getMobile},
+                #{num},
+                #{status},
+                #{addTime}
+                )
+    </insert>
+    <select id="findAll"  resultType="com.example.springbootmybatis.entity.Order" resultMap="test">
+       select * from `order`  where openId=#{openId};
+    </select>
+</mapper>
