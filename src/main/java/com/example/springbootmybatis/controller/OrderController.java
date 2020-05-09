@@ -3,6 +3,7 @@ package com.example.springbootmybatis.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.example.springbootmybatis.entity.Food;
 import com.example.springbootmybatis.entity.Order;
 import com.example.springbootmybatis.entity.OrderDetail;
 import com.example.springbootmybatis.entity.User;
@@ -73,9 +74,13 @@ public class OrderController {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String time = sdf.format(date);
         order.setAddTime(time);
+        JSONArray jsonArray = jsonObject.getJSONArray("buyCar");
+        //设置第一件商品图片到订单中
+        String url = jsonArray.getJSONObject(0).getString("foodImageUrl");
+        order.setFoodImageUrl(url);
         orderService.pay(order);
         int orderId=order.getId();
-        JSONArray jsonArray = jsonObject.getJSONArray("buyCar");
+//        JSONArray jsonArray = jsonObject.getJSONArray("buyCar");
         OrderDetail orderDetail = new OrderDetail();
         orderDetail.setOrderId(orderId);
         for(int i=0;i<jsonArray.size();i++)
@@ -83,6 +88,7 @@ public class OrderController {
             JSONObject object = jsonArray.getJSONObject(i);
             orderDetail.setFoodId((Integer) object.getInteger("id"));
             orderDetail.setNum((Integer) object.getInteger("num"));
+            orderDetail.setFoodName( object.getString("foodName"));
             orderDeatailService.savafood(orderDetail);
         }
         return new Status(1,"下单成功");
@@ -111,6 +117,41 @@ public class OrderController {
         }
         System.out.println(jsonArray);
         return new Status(1,jsonArray);
+    }
+    @RequestMapping("/wx/order/cancel")
+    public Status cancelOrder(@RequestBody JSONObject jsonObject){
+        //获取订单id
+        int id = jsonObject.getInteger("id");
+        int totalMoney = jsonObject.getInteger("totalMoney");
+        BigDecimal price = new BigDecimal(totalMoney);
+        Order order = orderService.checkStatus(id);
+        if(order.getStatus()!=0)
+        {
+           return  new Status(8,"该订单已过取消时间");
+        }
+        String sessionId = jsonObject.getString("sessionId");
+        JSONObject idAndkey = (JSONObject) redisUtil.get(sessionId);
+        String openId = idAndkey.getString("openid");
+        //设置订单状态为2-订单取消
+        orderService.updateStatus((byte)2,id);
+        User user = userService.findByOpenId(openId);
+        price=price.add(user.getWallet());
+        user.setWallent(price);
+        userService.updateWallet(user);
+        return new Status(9,"取消成功");
+    }
+    @RequestMapping("/wx/order/findOrderDetail")
+    public Status  findOrderDetail(@RequestBody JSONObject jsonObject)
+    {
+
+        List<Object> foodId = jsonObject.getJSONArray("params");
+        int[] list =  new int[foodId.size()];
+        for(int i= 0;i<foodId.size();i++)
+        {
+            list[i]=(int)foodId.get(i);
+        }
+        Food[] foods = orderService.findFoodByFoodIdArray(list);
+        return new Status(1,foods);
     }
         public JSONArray sortJSONArray(JSONArray jsonArray)
         {

@@ -7,6 +7,7 @@ public class OrderDetail  implements Serializable {
     private int orderId;
     private int foodId;
     private int num;
+    private String foodName;
 
     @Override
     public String toString() {
@@ -15,14 +16,8 @@ public class OrderDetail  implements Serializable {
                 ", orderId=" + orderId +
                 ", foodId=" + foodId +
                 ", num=" + num +
+                ", foodName='" + foodName + '\'' +
                 '}';
-    }
-    public int getNum() {
-        return num;
-    }
-
-    public void setNum(int num) {
-        this.num = num;
     }
 
     public int getId() {
@@ -47,5 +42,21 @@ public class OrderDetail  implements Serializable {
 
     public void setFoodId(int foodId) {
         this.foodId = foodId;
+    }
+
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
+    }
+
+    public String getFoodName() {
+        return foodName;
+    }
+
+    public void setFoodName(String foodName) {
+        this.foodName = foodName;
     }
 }

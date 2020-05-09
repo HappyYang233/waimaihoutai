@@ -3,7 +3,7 @@
 <mapper namespace="com.example.springbootmybatis.mapper.OrderDetailMapper">
 
     <insert id="savafood" parameterType="com.example.springbootmybatis.entity.OrderDetail">
-        insert into orderdetail ( orderId, foodId, num) VALUES (#{orderId},#{foodId},#{num})
+        insert into orderdetail ( orderId, foodId, num,foodName) VALUES (#{orderId},#{foodId},#{num},#{foodName})
     </insert>
     <select id="findByOrderId" resultType="com.example.springbootmybatis.entity.OrderDetail">
         select * from orderdetail where orderId=#{orderId}

@@ -29,8 +29,8 @@ public class FoodAndCateController {
     @RequestMapping("/food/showMenu")
     public Status showMenu(@RequestBody JSONObject params){
             int resId = (Integer) params.get("resId");
-//            if(Static.orderStatus==1)
-//                return new Status(20,"该时间段不允许下单");
+            if(Static.orderStatus==1)
+                return new Status(20,"该时间段不允许下单");
             Food[] foods = foodService.findAllByFoodType(0,resId);
             FoodCategory[] foodCategorys = foodCategoryService.findByResId(resId);
             JSONObject jsonObject ;

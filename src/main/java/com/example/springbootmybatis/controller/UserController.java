@@ -80,12 +80,12 @@ public class UserController {
 
     public Status addmoney(@RequestBody JSONObject jsonObject)
     {
-        int money = jsonObject.getInteger("money");
+        BigDecimal money = new BigDecimal(jsonObject.getString("money"));
         String sessionId = jsonObject.getString("sessionId");
         JSONObject jsonObject1 = (JSONObject) redisUtil.get(sessionId);
-        String openId = jsonObject.getString("openid");
+        String openId = jsonObject1.getString("openid");
         User user  = userService.findByOpenId(openId);
-        BigDecimal newprice = user.getWallet().add(new BigDecimal(money));
+        BigDecimal newprice = user.getWallet().add(money);
         user.setWallent(newprice);
         userService.updateWallet(user);
         return new Status(1,"成功");

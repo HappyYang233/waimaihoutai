@@ -1,12 +1,15 @@
 package com.example.springbootmybatis.service;
 
 import com.example.springbootmybatis.entity.UtilEntity.Static;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AlarmTaskService {
-    @Scheduled(cron = "0 0 9,16 * * *")
+    @Autowired
+    OrderService orderService;
+    @Scheduled(cron = "0 0 10,16 * * *")
     public void orderStop() throws InterruptedException {
         Static.orderStatus=1;
         System.out.println("不允许下单");
@@ -28,6 +31,12 @@ public class AlarmTaskService {
     {
         Static.orderType=0;
         System.out.println("现阶段是午餐标志位");
+    }
+    @Scheduled(cron = "0 0 10,16 * * *")
+    public void setOrderFinish()
+    {
+        System.out.println("设置订单完成");
+        orderService.setOrderFinish();
     }
 
 }

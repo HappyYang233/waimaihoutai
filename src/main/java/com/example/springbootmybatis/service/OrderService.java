@@ -1,5 +1,6 @@
 package com.example.springbootmybatis.service;
 
+import com.example.springbootmybatis.entity.Food;
 import com.example.springbootmybatis.entity.Order;
 import com.example.springbootmybatis.mapper.OrderMapper;
 import org.apache.ibatis.annotations.Param;
@@ -17,5 +18,19 @@ public class OrderService {
     public Order[] findAll(String openId)
     {
         return orderMapper.findAll(openId);
+    }
+    public  int updateStatus(byte status , int id)
+    {
+        return orderMapper.updateStatus(status,id);
+    }
+   public  Food[] findFoodByFoodIdArray(int[] foodId){
+        return orderMapper.findFoodByFoodIdArray(foodId);
+    }
+    public Order checkStatus(int id)
+    {
+        return orderMapper.checkStatus(id);
+    }
+    public void setOrderFinish(){
+        orderMapper.setOrderFinish();
     }
 }

@@ -11,7 +11,7 @@
             keyColumn="id"
             parameterType="com.example.springbootmybatis.entity.Order"
     >
-        insert  into `order` (openId,resId,totalMoney,payMoney,address,getName,getMobile,num,status,addTime)
+        insert  into `order` (openId,resId,totalMoney,payMoney,address,getName,getMobile,num,status,addTime,foodImageUrl)
         values (
                 #{openId},
                 #{resId},
@@ -22,10 +22,27 @@
                 #{getMobile},
                 #{num},
                 #{status},
-                #{addTime}
+                #{addTime},
+                #{foodImageUrl}
                 )
     </insert>
     <select id="findAll"  resultType="com.example.springbootmybatis.entity.Order" resultMap="test">
        select * from `order`  where openId=#{openId};
     </select>
+    <update id="updateStatus" >
+        update `order` set status =#{status} where id = #{id}
+    </update>
+    <select id="checkStatus" resultType="com.example.springbootmybatis.entity.Order">
+        select * from `order` where id=#{id}
+    </select>
+    <select id="findFoodByFoodIdArray"  parameterType="java.util.List" resultType="com.example.springbootmybatis.entity.Food">
+        select  * from food where food.id in
+        <foreach collection="array" item="id" index="index"
+                 open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+    <update id="setOrderFinish" >
+        update `order` set status=1 where status=0
+    </update>
 </mapper>
