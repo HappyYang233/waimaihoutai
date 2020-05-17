@@ -1,5 +1,6 @@
 package com.example.springbootmybatis.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.example.springbootmybatis.entity.UtilEntity.RedisUtil;
 import com.example.springbootmybatis.entity.UtilEntity.Static;
@@ -8,6 +9,8 @@ import com.example.springbootmybatis.entity.UtilEntity.Status;
 import com.example.springbootmybatis.mapper.UserMapper;
 import com.example.springbootmybatis.service.UserService;
 import com.example.springbootmybatis.util.WxUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.DigestUtils;
@@ -15,9 +18,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @RestController
 public class UserController {
@@ -30,8 +32,10 @@ public class UserController {
      * 小程序用户登陆
      * @param jsonObject
      * @return
+     *
+     *
      */
-    @RequestMapping("/user/login")
+    @RequestMapping("/wx/user/login")
     public Status userLogin(@RequestBody JSONObject jsonObject)
     {
         //取得传入参数
@@ -77,7 +81,6 @@ public class UserController {
 
 
     @RequestMapping("/wx/user/addmoney")
-
     public Status addmoney(@RequestBody JSONObject jsonObject)
     {
         BigDecimal money = new BigDecimal(jsonObject.getString("money"));
@@ -86,8 +89,82 @@ public class UserController {
         String openId = jsonObject1.getString("openid");
         User user  = userService.findByOpenId(openId);
         BigDecimal newprice = user.getWallet().add(money);
-        user.setWallent(newprice);
+        user.setWallet(newprice);
         userService.updateWallet(user);
         return new Status(1,"成功");
+    }
+    @RequestMapping("/admin/findAllUser")
+    public  Status findAllUser()
+    {
+        List<User> all = userService.findAllUser();
+        return new Status(1,all);
+    }
+    @RequestMapping("/admin/findUserByPage")
+    public Status findUserByPage(int pageNum,int pageSize)
+    {
+        System.out.println(pageNum+"+sdasdasd"+pageSize);
+        PageHelper.startPage(pageNum,pageSize);
+        List<User> list = userService.findAllUser();
+        PageInfo<User> pageInfo = new PageInfo<>(list);
+        System.out.println(pageInfo);
+        return  new Status(1,pageInfo);
+    }
+    @RequestMapping("/admin/addUser")
+    public  Status addUser(@RequestBody JSONObject jsonObject)
+    {
+        System.out.println("adduser"+jsonObject);
+        User user  = new User();
+        user.setUserName(jsonObject.getString("userName"));
+        user.setPassword(jsonObject.getString("password"));
+        user.setEmail(jsonObject.getString("email"));
+        user.setMobile(jsonObject.getString("mobile"));
+        user.setSex(jsonObject.getString("sexx"));
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String time = sdf.format(date);
+        user.setAddTime(time);
+        int flag = userService.savaAddUser(user);
+        if(flag==1)
+        {
+            return new Status(1,"添加成功");
+        }
+        else
+        {
+            return new Status(0,"添加失败");
+        }
+    }
+    @RequestMapping("/admin/findUserById")
+    public Status findUserById(int id )
+    {
+        User user = userService.findById(id);
+        if(user==null)
+        {
+            return new Status(0,"无此用户");
+        }
+        return new Status(1,user);
+    }
+    @RequestMapping("/admin/editUser")
+    public  Status edidUser(@RequestBody JSONObject jsonObject)
+    {
+
+        String obj = JSONObject.toJSONString(jsonObject);
+        User user = JSON.parseObject(obj,User.class);
+        int flag = userService.editUser(user);
+        if(flag==1){
+            return new Status(1,"修改成功");
+        }
+        else
+        {
+            return new Status(0,"修改失败");
+        }
+
+    }
+    @RequestMapping("/admin/removeUser")
+    public  Status removeUser(int id )
+    {
+        int flag = userService.removeUser(id);
+        if(flag==1)
+            return new Status(1,"删除成功");
+        return new Status(0,"删除失败");
     }
 }

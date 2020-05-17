@@ -1,5 +1,6 @@
 package com.example.springbootmybatis.service;
 
+
 import com.example.springbootmybatis.entity.UtilEntity.Static;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;

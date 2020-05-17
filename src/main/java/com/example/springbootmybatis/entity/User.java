@@ -15,7 +15,7 @@ public class User implements Serializable {
     private String trueName;
     private String sex;
     private byte status;
-    private int addTime;
+    private String addTime;
 
     @Override
     public String toString() {
@@ -25,12 +25,12 @@ public class User implements Serializable {
                 ", password='" + password + '\'' +
                 ", mobile='" + mobile + '\'' +
                 ", openId='" + openId + '\'' +
-                ", wallent=" + wallet +
+                ", wallet=" + wallet +
                 ", email='" + email + '\'' +
                 ", trueName='" + trueName + '\'' +
                 ", sex='" + sex + '\'' +
                 ", status=" + status +
-                ", addTime=" + addTime +
+                ", addTime='" + addTime + '\'' +
                 '}';
     }
 
@@ -78,7 +78,7 @@ public class User implements Serializable {
         return wallet;
     }
 
-    public void setWallent(BigDecimal wallet) {
+    public void setWallet(BigDecimal wallet) {
         this.wallet = wallet;
     }
 
@@ -114,11 +114,11 @@ public class User implements Serializable {
         this.status = status;
     }
 
-    public int getAddTime() {
+    public String getAddTime() {
         return addTime;
     }
 
-    public void setAddTime(int addTime) {
+    public void setAddTime(String addTime) {
         this.addTime = addTime;
     }
 }

@@ -4,7 +4,7 @@ server:
 spring:
   datasource:
     username: root
-    password: 123456
+    password: Yang123456@
     url: jdbc:mysql://localhost:3306/waimai?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
   redis:
@@ -33,3 +33,9 @@ logging:
     com:
       example:
         mapper : debug
+#pagehelper配置
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql

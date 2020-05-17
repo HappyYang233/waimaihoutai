@@ -54,7 +54,7 @@ public class OrderController {
         }
         else{
             //下单成功 进入支付流程
-            user.setWallent(res);
+            user.setWallet(res);
             userService.updateWallet(user);
         }
         int resId= jsonObject.getInteger("resId");
@@ -136,7 +136,7 @@ public class OrderController {
         orderService.updateStatus((byte)2,id);
         User user = userService.findByOpenId(openId);
         price=price.add(user.getWallet());
-        user.setWallent(price);
+        user.setWallet(price);
         userService.updateWallet(user);
         return new Status(9,"取消成功");
     }
@@ -157,30 +157,41 @@ public class OrderController {
         {
             List<JSONObject> list  =  JSONArray.parseArray(jsonArray.toJSONString(),JSONObject.class);
             Collections.sort(list, new Comparator<JSONObject>() {
-                SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
+//                SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
                 @Override
                 public int compare(JSONObject o1, JSONObject o2) {
-                    String a = o1.getString("addTime");
-                    String b = o2.getString("addTime");
-
-                    try {
-                        Date datea = sdf.parse(a);
-                        Date dateb = sdf.parse(b);
-                        if(datea.compareTo(dateb)==1) {
-                            return -1;
-                        }
-                         else if(datea.compareTo(dateb)==0)
-                            {
-                                return 0;
-                            }
-                         else {
-                             return 0;
-                         }
-
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                        return 2;
+                    int a = o1.getInteger("id");
+                    int b = o2.getInteger("id");
+                    if(a>b){
+                        return -1;
                     }
+                    else if(a==b){
+                        return 0;
+                    }
+                    else{
+                        return 0;
+                    }
+//                    String a = o1.getString("addTime");
+//                    String b = o2.getString("addTime");
+//
+//                    try {
+//                        Date datea = sdf.parse(a);
+//                        Date dateb = sdf.parse(b);
+//                        if(datea.compareTo(dateb)==1) {
+//                            return -1;
+//                        }
+//                         else if(datea.compareTo(dateb)==0)
+//                            {
+//                                return 0;
+//                            }
+//                         else {
+//                             return 0;
+//                         }
+//
+//                    } catch (ParseException e) {
+//                        e.printStackTrace();
+//                        return 2;
+//                    }
 
                 }
             });
@@ -203,7 +214,7 @@ public class OrderController {
                 else {
                     jsonObject.put(id,1);
                 }
-                redisUtil.set("num",JSONObject.toJSONString(jsonObject));
+                redisUtil.set("num",JSONObject.toJSONString(jsonObject),TimerUtil.getSecondsNextEarlyMorning());
                 return num;
             }
             else{

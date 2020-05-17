@@ -38,9 +38,9 @@ public class CheckSessionIdInterceptor extends HandlerInterceptorAdapter {
             sessionId=jsonObject.getString("sessionId");
             System.out.println(("111111111111"+sessionId));
         }
-        if(sessionId==null && request.getServletPath().equals("/user/login"))
+        if(sessionId==null && request.getServletPath().equals("/wx/user/login"))
             return true;
-        if(redisUtil.hasKey(sessionId) && !request.getServletPath().equals("/user/login"))
+        if(redisUtil.hasKey(sessionId) && !request.getServletPath().equals("/wx/user/login"))
         {
             System.out.println("x");
             return true;

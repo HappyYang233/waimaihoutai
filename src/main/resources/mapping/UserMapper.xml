@@ -28,13 +28,27 @@
     <select id="findById" resultType="com.example.springbootmybatis.entity.User">
         select * from user where  id= #{id}
     </select>
+    <select id="findAllUser" resultType="com.example.springbootmybatis.entity.User">
+        select * from user
+    </select>
     <insert id="savaUserByOpenId" parameterType="com.example.springbootmybatis.entity.User"
             useGeneratedKeys="true"
             keyProperty="id"
     >
         insert into user (openId) values (#{openId})
     </insert>
+    <insert id="savaAddUser" parameterType="com.example.springbootmybatis.entity.User">
+        insert into user ( userName, mobile, password, email, sex, addTime)values (
+                            #{userName},#{mobile},#{password},#{email},#{sex},#{addTime}
+                                                                                  )
+    </insert>
     <update id="updateWallet" parameterType="com.example.springbootmybatis.entity.User">
         update user set wallet = #{wallet} where openId = #{openId}
     </update>
+    <update id="editUser" parameterType="com.example.springbootmybatis.entity.User">
+        update user set email=#{email},mobile=#{mobile},sex=#{sex} where id= #{id}
+    </update>
+    <delete id="removeUser" >
+        delete from user where id = #{id}
+    </delete>
 </mapper>

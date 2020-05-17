@@ -26,7 +26,7 @@ public class FoodAndCateController {
     @Autowired
     FoodCategoryService foodCategoryService;
 
-    @RequestMapping("/food/showMenu")
+    @RequestMapping("/wx/food/showMenu")
     public Status showMenu(@RequestBody JSONObject params){
             int resId = (Integer) params.get("resId");
             if(Static.orderStatus==1)

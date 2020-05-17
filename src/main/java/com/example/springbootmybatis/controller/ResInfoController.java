@@ -15,7 +15,7 @@ public class ResInfoController {
     @Autowired
     ResInfoService resInfoService;
 
-    @RequestMapping("/res/showAll")
+    @RequestMapping("/wx/res/showAll")
     public Status showAll()
     {
         ResInfo[] resInfos= resInfoService.showALlRes();
