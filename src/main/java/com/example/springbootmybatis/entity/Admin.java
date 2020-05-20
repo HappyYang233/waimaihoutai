@@ -12,7 +12,7 @@ public class Admin implements Serializable {
     private String trueName;
     private String sex;
     private byte status;
-    private int addTime;
+    private String addTime;
     private int type;
 
     @Override
@@ -27,7 +27,7 @@ public class Admin implements Serializable {
                 ", trueName='" + trueName + '\'' +
                 ", sex='" + sex + '\'' +
                 ", status=" + status +
-                ", addTime=" + addTime +
+                ", addTime='" + addTime + '\'' +
                 ", type=" + type +
                 '}';
     }
@@ -104,11 +104,11 @@ public class Admin implements Serializable {
         this.status = status;
     }
 
-    public int getAddTime() {
+    public String getAddTime() {
         return addTime;
     }
 
-    public void setAddTime(int addTime) {
+    public void setAddTime(String addTime) {
         this.addTime = addTime;
     }
 

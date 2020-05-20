@@ -5,5 +5,19 @@
     <select id="findByResId" resultType="com.example.springbootmybatis.entity.Address" >
         select * from address where resId= #{resId}
     </select>
-
+    <select id="getAddressList" resultType="com.example.springbootmybatis.entity.Address">
+        select * from address where resId= #{resId}
+    </select>
+    <select id="findAddressById" resultType="com.example.springbootmybatis.entity.Address">
+        select * from address where id=#{id}
+    </select>
+    <insert id="addAddress" parameterType="com.example.springbootmybatis.entity.Address">
+        insert into `address` (resId, addressInfo) values (#{resId},#{addressInfo})
+    </insert>
+    <update id="editAddress" parameterType="com.example.springbootmybatis.entity.Address">
+        update address set addressInfo=#{addressInfo} where id=#{id}
+    </update>
+    <delete id="removeAddress">
+        delete from address where id =#{id}
+    </delete>
 </mapper>

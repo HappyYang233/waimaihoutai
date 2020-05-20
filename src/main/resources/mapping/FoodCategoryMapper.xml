@@ -5,5 +5,20 @@
     <select id="findByResId" resultType="com.example.springbootmybatis.entity.FoodCategory" >
         select * from foodcategory where resId= #{resId}
     </select>
+    <select id="getCateByResId" resultType="com.example.springbootmybatis.entity.FoodCategory">
+        select * from foodcategory where resId=#{resId}
+    </select>
+    <select id="findCateById" resultType="com.example.springbootmybatis.entity.FoodCategory">
+        select * from foodcategory where id= #{id}
+    </select>
+    <insert id="addCate" parameterType="com.example.springbootmybatis.entity.FoodCategory">
+        insert into foodcategory (resId, name,`desc`, addTime) values (#{resId},#{name},#{desc},#{addTime})
+    </insert>
+    <update id="editCate" parameterType="com.example.springbootmybatis.entity.FoodCategory">
+        update foodcategory set name=#{name},`desc`=#{desc} where id =#{id}
+    </update>
+    <delete id="removeCate">
+        delete from foodcategory where id=#{id}
+    </delete>
 
 </mapper>

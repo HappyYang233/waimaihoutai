@@ -5,5 +5,24 @@
         <select id="showALlRes" resultType="com.example.springbootmybatis.entity.ResInfo">
             select * from resinfo
         </select>
-
+        <select id="findResByName" resultType="com.example.springbootmybatis.entity.ResInfo">
+            select * from resinfo where resName = #{resName}
+        </select>
+        <select id="findResById" resultType="com.example.springbootmybatis.entity.ResInfo">
+            select * from resinfo  where id = #{id}
+        </select>
+        <insert id="addRes" parameterType="com.example.springbootmybatis.entity.ResInfo">
+            insert into resinfo (resName, contactName, contactMobile, resImageUrl) values
+                (#{resName},#{contactName},#{contactMobile},#{resImageUrl})
+        </insert>
+        <update id="editRes" parameterType="com.example.springbootmybatis.entity.ResInfo">
+            update resinfo set resName=#{resName},contactName=#{contactName}, contactMobile=#{contactMobile},resImageUrl=#{resImageUrl}
+            where id = #{id}
+        </update>
+        <delete id="removeRes">
+            delete from resinfo where id=#{id}
+        </delete>
+        <update id="editNotice">
+            update resinfo set notice=#{notice} where id=#{resId}
+        </update>
 </mapper>

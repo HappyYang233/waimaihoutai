@@ -8,7 +8,19 @@ public class FoodCategory implements Serializable {
     private  String name;
     private  String desc;
     private  byte status;
-    private int addTime;
+    private String addTime;
+
+    @Override
+    public String toString() {
+        return "FoodCategory{" +
+                "id=" + id +
+                ", resId=" + resId +
+                ", name='" + name + '\'' +
+                ", desc='" + desc + '\'' +
+                ", status=" + status +
+                ", addTime='" + addTime + '\'' +
+                '}';
+    }
 
     public int getId() {
         return id;
@@ -50,11 +62,11 @@ public class FoodCategory implements Serializable {
         this.status = status;
     }
 
-    public int getAddTime() {
+    public String getAddTime() {
         return addTime;
     }
 
-    public void setAddTime(int addTime) {
+    public void setAddTime(String addTime) {
         this.addTime = addTime;
     }
 }

@@ -13,7 +13,7 @@ public class Food  implements Serializable {
     private BigDecimal price;
     private int totalSales;
     private byte status;
-    private int addTime;
+    private String addTime;
     private int cateId;
 
     @Override
@@ -28,20 +28,10 @@ public class Food  implements Serializable {
                 ", price=" + price +
                 ", totalSales=" + totalSales +
                 ", status=" + status +
-                ", addTime=" + addTime +
+                ", addTime='" + addTime + '\'' +
                 ", cateId=" + cateId +
                 '}';
     }
-
-    public int getCateId() {
-        return cateId;
-    }
-
-    public void setCateId(int cateId) {
-        this.cateId = cateId;
-    }
-
-
 
     public int getId() {
         return id;
@@ -115,11 +105,19 @@ public class Food  implements Serializable {
         this.status = status;
     }
 
-    public int getAddTime() {
+    public String getAddTime() {
         return addTime;
     }
 
-    public void setAddTime(int addTime) {
+    public void setAddTime(String addTime) {
         this.addTime = addTime;
+    }
+
+    public int getCateId() {
+        return cateId;
+    }
+
+    public void setCateId(int cateId) {
+        this.cateId = cateId;
     }
 }

@@ -10,6 +10,7 @@ import com.example.springbootmybatis.entity.User;
 import com.example.springbootmybatis.entity.UtilEntity.RedisUtil;
 import com.example.springbootmybatis.entity.UtilEntity.Static;
 import com.example.springbootmybatis.entity.UtilEntity.Status;
+import com.example.springbootmybatis.service.FoodService;
 import com.example.springbootmybatis.service.OrderDeatailService;
 import com.example.springbootmybatis.service.OrderService;
 import com.example.springbootmybatis.service.UserService;
@@ -35,6 +36,8 @@ public class OrderController {
     UserService userService;
     @Autowired
     OrderDeatailService orderDeatailService;
+    @Autowired
+    FoodService foodService;
     @RequestMapping("/wx/order/pay")
     @Transactional
     public Status pay(@RequestBody JSONObject jsonObject){
@@ -89,6 +92,7 @@ public class OrderController {
             orderDetail.setFoodId((Integer) object.getInteger("id"));
             orderDetail.setNum((Integer) object.getInteger("num"));
             orderDetail.setFoodName( object.getString("foodName"));
+            foodService.addTotalSales(object.getInteger("num"),object.getInteger("id"));
             orderDeatailService.savafood(orderDetail);
         }
         return new Status(1,"下单成功");

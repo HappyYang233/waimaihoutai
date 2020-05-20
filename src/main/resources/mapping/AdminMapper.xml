@@ -5,5 +5,22 @@
     <select id="login" resultType="com.example.springbootmybatis.entity.Admin">
         select * from `admin` where userName= #{username}
     </select>
-
+    <select id="findAll" resultType="com.example.springbootmybatis.entity.Admin">
+        select * from `admin`
+    </select>
+    <select id="findAdminById" resultType="com.example.springbootmybatis.entity.Admin">
+        select * from `admin` where id=#{id}
+    </select>
+    <insert id="addAdmin" parameterType="com.example.springbootmybatis.entity.Admin">
+        insert into `admin` (resId, userName, mobile, password, email, trueName, sex, addTime, type) VALUES
+                            (
+                            #{resId},#{userName},#{mobile},#{password},#{email},#{trueName},#{sex},#{addTime},#{type}
+                            )
+    </insert>
+    <update id="editAdmin" parameterType="com.example.springbootmybatis.entity.Admin">
+        update `admin` set trueName=#{trueName},email=#{email},mobile=#{mobile},sex=#{sex},type=#{type} where id=#{id}
+    </update>
+    <delete id="removeAdmin" >
+        delete from admin where id = #{id}
+    </delete>
 </mapper>
