@@ -11,6 +11,9 @@
         <select id="findResById" resultType="com.example.springbootmybatis.entity.ResInfo">
             select * from resinfo  where id = #{id}
         </select>
+        <select id="showResByStatus" resultType="com.example.springbootmybatis.entity.ResInfo">
+            select * from resinfo where  status=0
+        </select>
         <insert id="addRes" parameterType="com.example.springbootmybatis.entity.ResInfo">
             insert into resinfo (resName, contactName, contactMobile, resImageUrl) values
                 (#{resName},#{contactName},#{contactMobile},#{resImageUrl})
@@ -24,5 +27,8 @@
         </delete>
         <update id="editNotice">
             update resinfo set notice=#{notice} where id=#{resId}
+        </update>
+        <update id="changeResStatus">
+            update resinfo set status=#{status} where id = #{id}
         </update>
 </mapper>

@@ -3,10 +3,7 @@ package com.example.springbootmybatis.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.example.springbootmybatis.entity.Food;
-import com.example.springbootmybatis.entity.Order;
-import com.example.springbootmybatis.entity.OrderDetail;
-import com.example.springbootmybatis.entity.User;
+import com.example.springbootmybatis.entity.*;
 import com.example.springbootmybatis.entity.UtilEntity.RedisUtil;
 import com.example.springbootmybatis.entity.UtilEntity.Static;
 import com.example.springbootmybatis.entity.UtilEntity.Status;
@@ -15,6 +12,8 @@ import com.example.springbootmybatis.service.OrderDeatailService;
 import com.example.springbootmybatis.service.OrderService;
 import com.example.springbootmybatis.service.UserService;
 import com.example.springbootmybatis.util.TimerUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -73,6 +72,7 @@ public class OrderController {
         order.setNum(num);
         order.setStatus((byte) 0);
         order.setOpenId(openId);
+        order.setFoodType(Static.orderType);
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String time = sdf.format(date);
@@ -229,6 +229,42 @@ public class OrderController {
                 return num;
             }
 
+        }
+        @RequestMapping("admin/findOrderByPage")
+        public Status testsxxx(int pageNum,int pageSize,int resId)
+        {
+//            PageHelper.startPage(pageNum,pageSize);
+            int index=pageNum-1;
+            int start = index*pageSize;
+            int end = start+pageSize;
+
+            List<OrderVo> orders = orderService.findOrderAndOrderDetail(resId);
+            if(orders==null)
+                return new Status(0,"获取订单列表失败");
+            int total = orders.size();
+            if(end>total)
+                end=total;
+            List<OrderVo> list = orders.subList(start,end);
+            Map<String,Object> map = new HashMap<>();
+            map.put("total",total);
+            map.put("list",list);
+            return new Status(1,map);
+        }
+        @RequestMapping("/admin/removeOrder")
+        public Status removeOrder(int id)
+        {
+            int flag = orderService.removeOrder(id);
+            if(flag==1)
+                return new Status(1,"删除订单成功");
+            return new Status(0,"删除订单失败");
+        }
+        @RequestMapping("/admin/findOrderByDate")
+        public Status findOrderByDate(int resId,String date,int foodType)
+        {
+            List<OrderVo> list = orderService.findOrderByDate(resId,date,foodType);
+            if(list!=null)
+                return new Status(1,list);
+            return new Status(0,"查找失败");
         }
 
 }

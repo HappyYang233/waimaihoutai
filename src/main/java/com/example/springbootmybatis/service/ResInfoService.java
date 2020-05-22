@@ -30,4 +30,10 @@ public class ResInfoService {
     public int editNotice(int resId,String notice){
         return mapper.editNotice(resId,notice);
     }
+    public int changeResStatus(int id,int status){
+        return mapper.changeResStatus(id,status);
+    }
+    public ResInfo[]  showResByStatus(){
+        return  mapper.showResByStatus();
+    }
 }

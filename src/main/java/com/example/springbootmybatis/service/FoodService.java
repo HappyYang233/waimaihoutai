@@ -32,4 +32,7 @@ public class FoodService {
     public int removeFood(int id){
         return  mapper.removeFood(id);
     }
+    public int changeFoodStatus(int id,int status){
+        return mapper.changeFoodStatus(id,status);
+    }
 }

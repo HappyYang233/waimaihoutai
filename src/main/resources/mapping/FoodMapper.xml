@@ -3,7 +3,7 @@
 <mapper namespace="com.example.springbootmybatis.mapper.FoodMapper">
 
     <select id="findAllByResIdAndType" resultType="com.example.springbootmybatis.entity.Food" >
-        select * from food where foodtype=#{type} and resId=#{resId}
+        select * from food where foodType=#{type} and resId=#{resId} and status=0
     </select>
     <select id="findAllFoodByResId" resultType="com.example.springbootmybatis.entity.Food">
         select * from food where resId=#{resId}
@@ -12,14 +12,19 @@
         select  * from food where id =#{id}
     </select>
     <insert id="addFood" parameterType="com.example.springbootmybatis.entity.Food">
-        insert into food (resId, cateId, foodtype, foodName, `desc`, foodImageUrl, price, addTime)
+        insert into food (resId, cateId, foodType, foodName, `desc`, foodImageUrl, price, addTime)
         values (#{resId},#{cateId},#{foodType},#{foodName},#{desc},#{foodImageUrl},#{price},#{addTime})
     </insert>
     <update id="editFood" parameterType="com.example.springbootmybatis.entity.Food">
-        update food set foodName=#{foodName},foodtype=#{foodType},cateId=#{cateId},`desc`=#{desc},foodImageUrl=#{foodImageUrl},price=#{price} where id=#{id}
+        update food set foodName=#{foodName},foodType=#{foodType},cateId=#{cateId},`desc`=#{desc},foodImageUrl=#{foodImageUrl},price=#{price} where id=#{id}
     </update>
     <delete id="removeFood">
         delete from food where id=#{id}
     </delete>
-
+    <update id="addTotalSales">
+        update food set totalSales=totalSales+#{num} where id=#{id}
+    </update>
+    <update id="changeFoodStatus">
+        update food set status=#{status} where id = #{id}
+    </update>
 </mapper>

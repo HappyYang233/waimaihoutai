@@ -33,9 +33,11 @@ public class FoodAndCateController {
     @RequestMapping("/wx/food/showMenu")
     public Status showMenu(@RequestBody JSONObject params){
             int resId = (Integer) params.get("resId");
+            int foodType=Static.orderType;
             if(Static.orderStatus==1)
                 return new Status(20,"该时间段不允许下单");
-            Food[] foods = foodService.findAllByFoodType(0,resId);
+
+            Food[] foods = foodService.findAllByFoodType(foodType,resId);
             FoodCategory[] foodCategorys = foodCategoryService.findByResId(resId);
             JSONObject jsonObject ;
 
@@ -155,5 +157,23 @@ public class FoodAndCateController {
             return new Status(1,"删除商品成功");
         return new Status(0,"删除商品失败");
     }
-    xxxxxxxx
+    @RequestMapping("/admin/changeFoodStatus")
+    public  Status changeFoodStatus(int id,int status)
+    {
+        int flag = foodService.changeFoodStatus(id,status);
+        Food food = foodService.findFoodById(id);
+        String name= food.getFoodName();
+        if(flag==1)
+        {
+            String msg = (status==1?name+"下架成功":name+"上架成功");
+            return new Status(1,msg);
+        }
+        else
+        {
+            String msg = (status==1?name+"下架失败":name+"上架失败");
+            return new Status(0,msg);
+        }
+
+    }
+
 }
