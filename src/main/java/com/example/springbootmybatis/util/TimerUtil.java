@@ -11,7 +11,7 @@ public class TimerUtil {
         String date= dateFormater.format(new Date());
         System.out.println(date);
         int time = Integer.parseInt(date);
-        if(time<900 || (time>1300 && time<1600)){
+        if(time<1000 || (time>1300 && time<1600)){
              status=0;
         }else{
              status=1;

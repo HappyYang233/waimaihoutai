@@ -19,6 +19,7 @@ public class Order implements Serializable {
     private String getMobile;
     private String openId;
     private String foodImageUrl;
+    private int foodType;
 
     @Override
     public String toString() {
@@ -35,6 +36,7 @@ public class Order implements Serializable {
                 ", getMobile='" + getMobile + '\'' +
                 ", openId='" + openId + '\'' +
                 ", foodImageUrl='" + foodImageUrl + '\'' +
+                ", foodType=" + foodType +
                 '}';
     }
 
@@ -132,5 +134,13 @@ public class Order implements Serializable {
 
     public void setFoodImageUrl(String foodImageUrl) {
         this.foodImageUrl = foodImageUrl;
+    }
+
+    public int getFoodType() {
+        return foodType;
+    }
+
+    public void setFoodType(int foodType) {
+        this.foodType = foodType;
     }
 }

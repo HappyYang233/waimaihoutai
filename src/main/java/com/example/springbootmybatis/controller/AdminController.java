@@ -96,6 +96,9 @@ public class AdminController {
         admin.setResId(resId);
 //        admin.setResName(resName);
         admin.setUserName(jsonObject.getString("userName"));
+        Admin temp = adminService.login(admin.getUserName());
+        if(temp!=null)
+            return new Status(0,"已存在该用户名，请重新换一个");
         admin.setPassword(jsonObject.getString("password"));
         admin.setTrueName(jsonObject.getString("trueName"));
         admin.setSex(jsonObject.getString("sex"));
@@ -105,7 +108,7 @@ public class AdminController {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String time = sdf.format(date);
         admin.setAddTime(time);
-        admin.setType(0);
+        admin.setType(1);
         int flag = adminService.addAdmin(admin);
         if(flag==1)
         {

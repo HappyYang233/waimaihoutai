@@ -13,4 +13,6 @@ public interface ResInfoMapper {
     int editRes(ResInfo resInfo);
     int removeRes(int id);
     int editNotice(int resId,String notice);
+    int changeResStatus(int id,int status);
+    ResInfo[]  showResByStatus();
 }

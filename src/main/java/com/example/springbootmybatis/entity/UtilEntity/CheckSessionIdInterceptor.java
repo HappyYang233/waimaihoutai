@@ -34,19 +34,16 @@ public class CheckSessionIdInterceptor extends HandlerInterceptorAdapter {
             String body = requestWrapper.getBody();
             System.out.println("string:  "+body);
             JSONObject jsonObject = JSONObject.parseObject(body);
-            System.out.println("jsonobject111111:  "+jsonObject);
             sessionId=jsonObject.getString("sessionId");
-            System.out.println(("111111111111"+sessionId));
         }
         if(sessionId==null && request.getServletPath().equals("/wx/user/login"))
             return true;
         if(redisUtil.hasKey(sessionId) && !request.getServletPath().equals("/wx/user/login"))
         {
-            System.out.println("x");
+
             return true;
         }
         else {
-            System.out.println("会话过期");
             Status status = new Status(10,"会话失效请重新登录");
             String statusJson = JSONObject.toJSONString(status);
             response.setCharacterEncoding("UTF-8");

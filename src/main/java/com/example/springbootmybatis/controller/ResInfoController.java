@@ -19,7 +19,7 @@ public class ResInfoController {
     @RequestMapping("/wx/res/showAll")
     public Status showAll()
     {
-        ResInfo[] resInfos= resInfoService.showALlRes();
+        ResInfo[] resInfos= resInfoService.showResByStatus();
         if(resInfos==null || resInfos.length==0)
             return new Status(0,"失败请重试");
         String json = JSON.toJSONString(resInfos);
@@ -82,6 +82,14 @@ public class ResInfoController {
             return  new Status(1,"修改公告成功");
         return new Status(0,"修改公告失败");
 
+    }
+    @RequestMapping("/admin/changeResStatus")
+    public Status changeResStatus(int id,int status)
+    {
+        int flag = resInfoService.changeResStatus(id,status);
+        if(flag==1)
+            return new Status(1,"修改成功");
+        return new Status(0,"修改失败");
     }
 
 
