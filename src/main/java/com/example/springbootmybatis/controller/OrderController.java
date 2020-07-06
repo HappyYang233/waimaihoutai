@@ -266,5 +266,49 @@ public class OrderController {
                 return new Status(1,list);
             return new Status(0,"查找失败");
         }
+        @RequestMapping("/admin/getOneDayMoney")
+        public Status getOneDayMoney(String time,int resId)
+        {
+            BigDecimal bigDecimal = orderService.getOneDayMoney(time,resId);
+            if(bigDecimal!=null)
+            {
+                int money =bigDecimal.intValue();
+                return new Status(1,money);
+            }
+            return new Status(0,0);
+        }
+        @RequestMapping("/admin/getAllMoney")
+        public Status getAllMoney(int resId)
+        {
+            BigDecimal bigDecimal = orderService.getAllMoney(resId);
+            if(bigDecimal!=null)
+            {
+                int money = bigDecimal.intValue();
+                return new Status(1,money);
+            }
+            return new Status(0,0);
+        }
+        @RequestMapping("/admin/countAddress")
+        public Status countAddress(int resId)
+        {
+            List<Map<String , Object>> list = orderService.countAddress(resId);
+            System.out.println(list);
+            if(list!=null)
+            {
+                return new Status(1,list);
+            }
+            return new Status(0,"null");
+        }
+        @RequestMapping("/admin/countSales")
+        public Status countSales(int resId)
+        {
+            List<Map<String , Object>> list = orderService.countSales(resId);
+            if(list!=null)
+            {
+                return new Status(1,list);
+            }
+            return new Status(0,"null");
+        }
+
 
 }

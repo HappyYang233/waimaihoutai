@@ -36,6 +36,18 @@
         select o.* ,a.id as aid ,a.orderId as  aoid,a.foodId as afid,a.num as anum,a.foodName as afn
         from (select * from `order` where resId =#{resId} and addTime=#{date} and foodType=#{foodType})o left outer join orderdetail a on o.id=a.orderId order by num
     </select>
+    <select id="getOneDayMoney"  resultType="java.math.BigDecimal">
+        select sum(totalMoney) from `order` where resId=#{resId} and addTime=#{time}
+    </select>
+    <select id="getAllMoney" resultType="java.math.BigDecimal">
+        select sum(totalMoney) from `order` where resId=#{resId}
+    </select>
+    <select id="countAddress" resultType="java.util.Map">
+        select address, count(*)as num from `order` where resId=#{resId} group by address
+    </select>
+    <select id="countSales" resultType="java.util.Map">
+        select addTime,count(*)as num from `order` where resId=1  and date_sub(CURDATE(),INTERVAL 7 DAY) &lt;= DATE(addTime)GROUP BY addTime
+    </select>
     <insert id="pay"
             useGeneratedKeys="true"
             keyProperty="id"

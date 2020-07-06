@@ -8,7 +8,9 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class OrderService {
@@ -45,5 +47,17 @@ public class OrderService {
     }
     public  List<OrderVo> findOrderByDate(int resId,String date,int foodType){
         return orderMapper.findOrderByDate(resId,date,foodType);
+    }
+    public BigDecimal getOneDayMoney(String time, int resId){
+        return orderMapper.getOneDayMoney(time,resId);
+    }
+    public BigDecimal getAllMoney(int resId){
+        return orderMapper.getAllMoney(resId);
+    }
+    public List<Map<String,Object>> countAddress(int resId){
+        return  orderMapper.countAddress(resId);
+    }
+    public List<Map<String,Object>> countSales(int resId){
+        return orderMapper.countSales(resId);
     }
 }

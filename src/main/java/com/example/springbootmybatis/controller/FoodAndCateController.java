@@ -40,7 +40,6 @@ public class FoodAndCateController {
             Food[] foods = foodService.findAllByFoodType(foodType,resId);
             FoodCategory[] foodCategorys = foodCategoryService.findByResId(resId);
             JSONObject jsonObject ;
-
             if(foods!=null && foodCategorys!=null){
                 Map<String,Object> map = new HashMap<>();
                 JSONArray returnCates = JSONArray.parseArray(JSONObject.toJSONString(foodCategorys));
